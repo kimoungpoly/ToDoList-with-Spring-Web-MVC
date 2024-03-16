@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body>
+
 <div class="container mt-5">
     <h1 class="mb-4 text-center">Todo List</h1>
 
@@ -46,16 +47,14 @@
             <td th:text="${todo.isDone}"></td>
             <td th:text="${todo.createdAt}"></td>
             <td>
-                <!-- Edit and Delete buttons for each todo -->
-                <a th:href="@{'/todo/edit/' + ${todo != null ? todo.id : ''}}" class="editBtn btn btn-primary btn-sm">Edit</a>
+                <a th:href="@{/todo/edit/{id}(id=${todo.id})}" class="btn btn-primary btn-sm">Edit</a>
                 <a th:href="@{/todo/delete/{id}(id=${todo.id})}" class="btn btn-danger btn-sm">Delete</a>
             </td>
         </tr>
         </tbody>
     </table>
 
-    <!-- Edit Todo Form -->
-    <form th:action="@{'/todo/edit/' + ${todo != null ? todo.id : ''}}" id="editForm" method="post" style="display: none;">
+    <form  th:action="@{'/todo/edit/' + ${todo != null ? todo.id : ''}}" method="post">
         <div class="mb-3">
             <label class="form-label">New Task</label>
             <input type="text" class="form-control" id="newTaskInput" name="task" th:value="${todo != null ? todo.task : ''}">
@@ -75,7 +74,7 @@
     </form>
 
     <!-- Add New Todo Form -->
-    <form id="addForm" action="/todo/add" method="post" >
+    <form id="addForm" action="/todo/add" method="post">
         <div class="mb-3">
             <label for="taskInput" class="form-label">Task</label>
             <input type="text" class="form-control" id="taskInput" name="task">
@@ -88,23 +87,6 @@
     </form>
 
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var editButtons = document.querySelectorAll('.editBtn');
-        editButtons.forEach(function(editButton) {
-            editButton.addEventListener('click', function(event) {
-                event.preventDefault();
-
-                // Hide the "Add Task" form
-                var addForm = document.getElementById('addForm');
-                addForm.style.display = 'none';
-
-                // Show the "Edit" form
-                var editForm = document.getElementById('editForm');
-                editForm.style.display = 'block';
-            });
-        });
-    });
 </script>
 </body>
 </html>
